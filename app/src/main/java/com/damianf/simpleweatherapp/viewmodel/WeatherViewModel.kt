@@ -4,7 +4,7 @@ package com.damianf.simpleweatherapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.damianf.simpleweatherapp.data.WeatherDataSource
-import com.damianf.simpleweatherapp.data.WeatherEntry
+import com.damianf.simpleweatherapp.data.model.WeatherEntry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
