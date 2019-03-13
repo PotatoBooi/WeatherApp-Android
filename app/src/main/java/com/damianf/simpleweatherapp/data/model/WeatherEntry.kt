@@ -1,17 +1,19 @@
-package com.damianf.simpleweatherapp.data
+package com.damianf.simpleweatherapp.data.model
 
+import com.serjltt.moshi.adapters.FirstElement
+import com.serjltt.moshi.adapters.Wrapped
 import com.squareup.moshi.Json
 
 
 data class WeatherEntry(
-    @field:Json(name = "city_name")
-    val name: String,
-    @field:Json(name = "message")
-    val message: Double
-//    @field:Json(name = "main.temp")
-//    val temperature: Double,
-//    @field:Json(name = "main.temp_min")
-//    val tempMin: Double,
-//    @field:Json(name = "main.temp_max")
-//    val tempMax: Double
+    @field:Json(name = "name")
+    val cityName: String,
+    @FirstElement
+    @field:Json(name = "weather")
+    val info: WeatherInfo,
+    @field:Json(name="main")
+    val details: WeatherDetails,
+    @field:Json(name="clouds")
+    val clouds: Clouds
 )
+data class Clouds(@field:Json(name = "all") val value:Int)
