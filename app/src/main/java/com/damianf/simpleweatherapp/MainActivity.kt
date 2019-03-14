@@ -43,12 +43,32 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                 goToSettings()
             }
             R.id.action_search -> {
-                val search = item as SearchView
+                val search = item.actionView as SearchView
+                search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        return if (query != null && query.isNotEmpty()) {
+                            updateWeather(query)
+                            item.collapseActionView()
+                            true
+                        } else false
+                    }
 
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        return true
+                    }
+                })
             }
 
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun updateWeather(location: String) {
+        content_main.visibility = View.INVISIBLE
+        progress_bar_main.visibility = View.VISIBLE
+        viewModel.updateWeather(location)
+        content_main.visibility = View.VISIBLE
+        progress_bar_main.visibility = View.GONE
     }
 
     private fun goToSettings() {
@@ -56,7 +76,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun bindUI() {
-        content_main.visibility = View.INVISIBLE
+
 
         viewModel.loadWeather()
         viewModel.weather.observe(this, Observer { weather ->
@@ -81,7 +101,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 //
 //        })
         progress_bar_main.visibility = View.GONE
-        content_main.visibility = View.VISIBLE
     }
 
 //    private fun updateLocation(){
