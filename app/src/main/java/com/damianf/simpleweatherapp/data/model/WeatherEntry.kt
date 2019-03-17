@@ -11,9 +11,12 @@ data class WeatherEntry(
     @FirstElement
     @field:Json(name = "weather")
     val info: WeatherInfo,
-    @field:Json(name="main")
+    @field:Json(name = "main")
     val details: WeatherDetails,
-    @field:Json(name="clouds")
-    val clouds: Clouds
+    @field:Json(name = "clouds")
+    val clouds: Clouds,
+    @field:Json(name = "dt")
+    val updateTime: Long
 )
-data class Clouds(@field:Json(name = "all") val value:Int)
+
+data class Clouds(@field:Json(name = "all") val value: Int)

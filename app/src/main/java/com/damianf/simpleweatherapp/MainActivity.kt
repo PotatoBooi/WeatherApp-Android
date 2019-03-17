@@ -6,10 +6,12 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.damianf.simpleweatherapp.data.state.events.CurrentWeatherEvent
 import com.damianf.simpleweatherapp.viewmodel.WeatherViewModel
 import com.damianf.simpleweatherapp.viewmodel.WeatherViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(WeatherViewModel::class.java)
         bindUI()
+        viewModel.handleEvent(CurrentWeatherEvent.OnStart)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,11 +67,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun updateWeather(location: String) {
-        content_main.visibility = View.INVISIBLE
-        progress_bar_main.visibility = View.VISIBLE
-        viewModel.updateWeather(location)
-        content_main.visibility = View.VISIBLE
-        progress_bar_main.visibility = View.GONE
+        viewModel.handleEvent(CurrentWeatherEvent.OnLocationChange(location))
     }
 
     private fun goToSettings() {
@@ -76,44 +75,27 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     }
 
     private fun bindUI() {
-
-
-        viewModel.loadWeather()
         viewModel.weather.observe(this, Observer { weather ->
             if (weather == null) return@Observer
             txt_temperature.text = "${weather.details.temperature}°C"
             txt_temperature_min_max.text = "${weather.details.temperatureMin} | ${weather.details.temperatureMax}°C"
             txt_city_name.text = weather.cityName
             txt_weather_description.text = weather.info.description
+            progress_bar_main.visibility = View.GONE
         })
+        viewModel.error.observe(this, Observer { error ->
+            if(error == null) return@Observer
+            showError(error)
+        })
+        viewModel.loading.observe(this, Observer { showLoading() })
 
-//        btn_change_location.setOnClickListener{
-//            updateLocation()
-//        }
-//        input_location.setOnEditorActionListener(object :TextView.OnEditorActionListener{
-//            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-//                return if(actionId == EditorInfo.IME_ACTION_DONE){
-//                    updateLocation()
-//                    true
-//                }else
-//                    false
-//            }
-//
-//        })
-        progress_bar_main.visibility = View.GONE
     }
 
-//    private fun updateLocation(){
-//        if(input_location.text.toString().isNotEmpty()){
-//            viewModel.updateWeather(input_location.text.toString().trim())
-//
-//            input_location.clearFocus()
-//
-//        }
-//        else
-//            Toast.makeText(this, "Bad location!",Toast.LENGTH_LONG).show()
-//
-//        input_location.text?.clear()
-//    }
+    private fun showError(error: String) {
+        Toast.makeText(this,error,Toast.LENGTH_SHORT).show()
+    }
 
+    private fun showLoading() {
+       //
+    }
 }
