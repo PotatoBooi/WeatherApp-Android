@@ -20,7 +20,11 @@
                                                        android:id="@+id/content_main"
 
     >
-
+        <androidx.constraintlayout.widget.Group android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/txt_info"
+        app:constraint_referenced_ids="txt_pressure_text,txt_clouds_text,txt_temp_min_text,txt_temp_max_text"
+        android:visibility="invisible"/>
         <ProgressBar android:layout_width="wrap_content"
                      android:id="@+id/progress_bar_main"
                      android:layout_height="wrap_content"
@@ -36,7 +40,7 @@
                    app:layout_constraintLeft_toLeftOf="parent"
                    app:layout_constraintRight_toRightOf="parent"
                    tools:src="@drawable/ic_snow"
-                   android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+                   android:layout_marginTop="16dp" app:layout_constraintTop_toTopOf="parent"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:id="@+id/txt_weather_description"
                   tools:text="Deszcz"
@@ -146,7 +150,7 @@
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/guideline4" app:layout_constraintGuide_percent="0.35"/>
+                android:id="@+id/guideline4" app:layout_constraintGuide_begin="144dp"/>
         <androidx.constraintlayout.widget.Guideline
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -161,6 +165,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_pressure"
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 tools:text="1000 pa"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="@+id/guideline3"
@@ -170,6 +175,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/txt_clouds"
+                style="@style/TextAppearance.MaterialComponents.Body1"
                 tools:text="69%"
                 app:layout_constraintStart_toStartOf="@+id/guideline2" android:layout_marginStart="16dp"
                 app:layout_constraintBottom_toTopOf="@+id/guideline5"

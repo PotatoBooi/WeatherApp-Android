@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             txt_weather_description.text = weather.description
             img_weather_icon.setImageDrawable(getDrawable(conditionMap[weather.condition]!!))
             progress_bar_main.visibility = View.GONE
+            txt_info.visibility = View.VISIBLE
         })
         viewModel.error.observe(this, Observer { error ->
             if(error == null) return@Observer

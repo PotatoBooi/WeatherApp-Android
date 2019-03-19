@@ -18,7 +18,7 @@
         <activity android:name="com.damianf.weatherapp.SettingsActivity"
         android:parentActivityName="com.damianf.weatherapp.MainActivity">
         </activity>
-        <activity android:name="com.damianf.weatherapp.MainActivity">
+        <activity android:name="com.damianf.weatherapp.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
