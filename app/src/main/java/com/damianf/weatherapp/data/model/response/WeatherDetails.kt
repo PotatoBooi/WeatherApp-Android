@@ -6,7 +6,7 @@ data class WeatherDetails(
     @field:Json(name = "humidity")
     val humidity: Int,
     @field:Json(name = "pressure")
-    val pressure: Int,
+    val pressure: Double,
     @field:Json(name = "temp")
     val temperature: Double,
     @field:Json(name = "temp_max")

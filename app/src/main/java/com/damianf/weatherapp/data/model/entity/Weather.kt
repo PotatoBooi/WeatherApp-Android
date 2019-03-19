@@ -10,6 +10,7 @@ data class Weather(
     val temperatureMin: Int,
     val temperatureMax: Int,
     val pressure: Int,
-    val humidity: Int
+    val humidity: Int,
+    val cloudiness:Int
 //val updateTime: Long - for later weather refreshing
 )

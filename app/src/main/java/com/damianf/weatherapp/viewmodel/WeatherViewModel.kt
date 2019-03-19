@@ -26,6 +26,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(),
         _weather
     }
     val loading = MutableLiveData<Unit>()
+    // need better error messaging and snackbar
     val error = MutableLiveData<String>()
     fun handleEvent(event: CurrentWeatherEvent) {
         when (event) {

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="pressure_text">Ciśnienie</string>
+    <string name="temperature_max_text">Temperatura maksymalna</string>
+    <string name="temperature_min_text">Temperatura minimalna</string>
+    <string name="clouds_text">Zachmurzenie</string>
 </resources>

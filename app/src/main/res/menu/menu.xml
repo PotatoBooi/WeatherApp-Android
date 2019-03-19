@@ -7,6 +7,11 @@
           android:title="Search"
           app:actionViewClass="androidx.appcompat.widget.SearchView"
     />
+
+    <item android:id="@+id/action_refresh" app:showAsAction="ifRoom"
+          android:title="Refresh"
+          android:icon="@drawable/ic_refresh_white"
+    />
     <item app:showAsAction="ifRoom" android:id="@+id/action_settings"
           android:title="Settings"
           android:icon="@drawable/ic_settings_white_24dp"

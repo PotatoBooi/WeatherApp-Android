@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.damianf.weatherapp.data.state.events.CurrentWeatherEvent
+import com.damianf.weatherapp.util.conditionMap
 import com.damianf.weatherapp.viewmodel.WeatherViewModel
 import com.damianf.weatherapp.viewmodel.WeatherViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
@@ -56,11 +57,13 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                             true
                         } else false
                     }
-
                     override fun onQueryTextChange(newText: String?): Boolean {
                         return true
                     }
                 })
+            }
+            R.id.action_refresh ->{
+                viewModel.handleEvent(CurrentWeatherEvent.OnStart)
             }
 
         }
@@ -79,12 +82,13 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         viewModel.weather.observe(this, Observer { weather ->
             if (weather == null) return@Observer
             txt_temperature.text = "${weather.temperature}°C"
-            txt_temperature_min_max.text = "${weather.temperatureMin} | ${weather.temperatureMax}°C"
+            txt_temperature_min.text = "${weather.temperatureMin}°C"
+            txt_temperature_max.text = "${weather.temperatureMax}°C"
+            txt_pressure.text = weather.pressure.toString() + " pa"
+            txt_clouds.text = weather.cloudiness.toString() +" %"
             txt_city_name.text = weather.cityName
             txt_weather_description.text = weather.description
-            Glide.with(this@MainActivity)
-                .load(weather.iconUrl)
-                .into(img_weather_icon)
+            img_weather_icon.setImageDrawable(getDrawable(conditionMap[weather.condition]!!))
             progress_bar_main.visibility = View.GONE
         })
         viewModel.error.observe(this, Observer { error ->
