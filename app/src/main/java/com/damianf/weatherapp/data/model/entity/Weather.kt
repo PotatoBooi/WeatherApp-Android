@@ -5,7 +5,7 @@ data class Weather(
     val cityName: String,
     val description: String,
     val condition: String,
-    val iconUrl: String,
+    val iconResource: Int,
     val temperature: Int,
     val temperatureMin: Int,
     val temperatureMax: Int,

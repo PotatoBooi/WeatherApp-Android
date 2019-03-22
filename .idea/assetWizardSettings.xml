@@ -28,9 +28,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_refresh_white" />
-                            <entry key="sourceFile" value="C:\Users\DamianF\Desktop\365220-weather-forecast\ic_mist.svg" />
+                            <entry key="outputName" value="ic_snowing" />
+                            <entry key="sourceFile" value="C:\Users\DamianF\Desktop\snowing.svg" />
                           </map>
                         </option>
                       </PersistentState>

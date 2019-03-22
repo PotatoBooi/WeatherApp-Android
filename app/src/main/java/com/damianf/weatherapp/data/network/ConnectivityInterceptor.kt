@@ -2,6 +2,7 @@ package com.damianf.weatherapp.data.network
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.damianf.weatherapp.util.NoConnectivityException
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -25,4 +26,3 @@ class ConnectivityInterceptor(
         return networkInfo != null && networkInfo.isConnected
     }
 }
-class NoConnectivityException: IOException()

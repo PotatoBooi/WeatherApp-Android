@@ -1,10 +1,8 @@
 package com.damianf.weatherapp.data
 
-import android.util.Log
 import com.damianf.weatherapp.data.model.entity.Weather
-import com.damianf.weatherapp.data.model.response.WeatherEntry
 import com.damianf.weatherapp.util.toWeatherModel
-import java.lang.Exception
+import retrofit2.HttpException
 
 
 class WeatherDataSource(private val api: WeatherApi) {
@@ -16,9 +14,7 @@ class WeatherDataSource(private val api: WeatherApi) {
 
             Result.build { downloadedWeather.toWeatherModel }
         } catch (ex: Exception) {
-            Log.e("Connectivity", "No internet connection")
             Result.build { throw ex }
-
         }
     }
 }
