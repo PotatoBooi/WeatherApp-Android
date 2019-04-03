@@ -1,18 +1,28 @@
-package com.damianf.weatherapp
+package com.damianf.weatherapp.ui.settings
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.*
+import com.damianf.weatherapp.R
+import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        setSupportActionBar(toolbar)
+
+        setSupportActionBar(toolbar_settings)
         supportActionBar?.apply {
             setDisplayHomeAsUpEnabled(true)
-            title = ""
         }
+
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.settings_fragment,
+                SettingsFragment()
+            )
+            .commit()
+
     }
+
 }

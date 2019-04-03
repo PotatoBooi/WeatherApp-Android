@@ -7,6 +7,8 @@ import com.squareup.moshi.Json
 data class WeatherEntry(
     @field:Json(name = "name")
     val cityName: String,
+    @field:Json(name = "coord")
+    val coords: Coords,
     @FirstElement
     @field:Json(name = "weather")
     val info: WeatherInfo,
@@ -19,3 +21,9 @@ data class WeatherEntry(
 )
 
 data class Clouds(@field:Json(name = "all") val value: Int)
+data class Coords(
+    @field:Json(name = "lon")
+    val longitude: Double,
+    @field:Json(name = "lat")
+    val latitude: Double
+)

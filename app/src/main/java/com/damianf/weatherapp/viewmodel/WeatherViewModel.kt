@@ -16,6 +16,7 @@ import com.damianf.weatherapp.data.Result
 import com.damianf.weatherapp.data.model.entity.Weather
 import com.damianf.weatherapp.data.state.events.CurrentWeatherEvent
 import com.damianf.weatherapp.util.NoConnectivityException
+import com.damianf.weatherapp.util.PermissionNotGrantedException
 import com.damianf.weatherapp.util.SingleLiveEvent
 import retrofit2.HttpException
 
@@ -49,6 +50,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(),
                     when(data.error){
                         is HttpException -> R.string.error_not_found
                         is NoConnectivityException -> R.string.error_no_connection
+                        is PermissionNotGrantedException -> R.string.error_no_permissions
                         else -> R.string.error_common
                     }
             }//handle errors

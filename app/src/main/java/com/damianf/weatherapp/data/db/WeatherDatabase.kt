@@ -4,10 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.damianf.weatherapp.data.model.entity.Weather
 
-@Database(entities = [Location::class],version = 1)
+@Database(entities = [Location::class, Weather::class],version = 2)
 abstract class WeatherDatabase : RoomDatabase(){
     abstract fun locationDao() : LocationDao
+    abstract fun weatherDao() : WeatherDao
     companion object {
         @Volatile private var instance: WeatherDatabase? = null
         private val LOCK = Any()
@@ -17,6 +19,7 @@ abstract class WeatherDatabase : RoomDatabase(){
         }
         private fun buildDatabase(context: Context) =
             Room.databaseBuilder(context.applicationContext,WeatherDatabase::class.java,"weather.db")
+                .fallbackToDestructiveMigration()
             .build()
     }
 

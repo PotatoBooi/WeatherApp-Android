@@ -3,10 +3,28 @@ package com.damianf.weatherapp.util
 import com.damianf.weatherapp.R
 import com.damianf.weatherapp.data.model.entity.Weather
 import com.damianf.weatherapp.data.model.response.WeatherEntry
+import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
 import retrofit2.HttpException
 import kotlin.math.roundToInt
 
-internal val WeatherEntry.toWeatherModel : Weather
+fun <T> Task<T>.asDeferred(): Deferred<T> {
+    val deferred = CompletableDeferred<T>()
+
+    this.addOnSuccessListener { result ->
+        deferred.complete(result)
+    }
+
+    this.addOnFailureListener { exception ->
+        deferred.completeExceptionally(exception)
+    }
+
+    return deferred
+}
+
+
+internal val WeatherEntry.toWeatherModel: Weather
     get() = Weather(
         cityName,
         info.description.capitalize(),
@@ -17,10 +35,11 @@ internal val WeatherEntry.toWeatherModel : Weather
         details.temperatureMax.roundToInt(),
         details.pressure.roundToInt(),
         details.humidity,
-        clouds.value
+        clouds.value,
+        updateTime
     )
 
- val conditionMap = hashMapOf(
+val conditionMap = hashMapOf(
     //sun
     800 to R.drawable.ic_sun,
     //clouds
@@ -52,6 +71,8 @@ internal val WeatherEntry.toWeatherModel : Weather
     503 to R.drawable.ic_rain,
     504 to R.drawable.ic_rain,
     511 to R.drawable.ic_rain,
+    520 to R.drawable.ic_rain,
+    521 to R.drawable.ic_rain,
     //Storm
     200 to R.drawable.ic_storm,
     201 to R.drawable.ic_storm,

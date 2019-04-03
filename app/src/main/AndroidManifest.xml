@@ -5,6 +5,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
     <application
             android:name=".WeatherApp"
@@ -15,10 +16,17 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.damianf.weatherapp.SettingsActivity"
-        android:parentActivityName="com.damianf.weatherapp.MainActivity">
+        <activity
+                android:name=".SettingsActivity2"
+                android:label="@string/title_activity_settings2">
         </activity>
-        <activity android:name="com.damianf.weatherapp.MainActivity" android:screenOrientation="portrait">
+        <activity
+                android:name=".ui.settings.SettingsActivity"
+                android:parentActivityName=".ui.weather.MainActivity">
+        </activity>
+        <activity
+                android:name=".ui.weather.MainActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

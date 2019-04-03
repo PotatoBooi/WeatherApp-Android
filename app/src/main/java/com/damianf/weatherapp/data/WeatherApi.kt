@@ -21,9 +21,11 @@ const val API_KEY = "d54c3483661034d5da1002264c213c4e"
 interface WeatherApi {
     @GET("weather")
     fun getCurrentWeather(
-        @Query("q") cityName: String,
+        @Query("q") cityName: String?,
         @Query("lang") lang: String = "pl",
-        @Query("units") units: String = "metric"
+        @Query("units") units: String = "metric",
+        @Query("lat") lat : Double?,
+        @Query("lon") lon : Double?
     ): Deferred<WeatherEntry>
 
     companion object {

@@ -2,14 +2,13 @@ package com.damianf.weatherapp.data
 
 import com.damianf.weatherapp.data.model.entity.Weather
 import com.damianf.weatherapp.util.toWeatherModel
-import retrofit2.HttpException
 
 
 class WeatherDataSource(private val api: WeatherApi) {
-    suspend fun getWeather(location: String): Result<Exception, Weather> {
+    suspend fun getWeather(cityName: String? = null, lat: Double?= null, lon: Double? = null): Result<Exception, Weather> {
         return try {
             val downloadedWeather =
-                api.getCurrentWeather(location)
+                api.getCurrentWeather(cityName, lat = lat, lon = lon)
                     .await()
 
             Result.build { downloadedWeather.toWeatherModel }
