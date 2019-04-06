@@ -2,13 +2,15 @@ package com.damianf.weatherapp.ui.weather
 
 
 import android.Manifest
+import android.app.ProgressDialog.show
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.androidadvance.topsnackbar.TSnackbar
@@ -17,12 +19,9 @@ import com.damianf.weatherapp.data.state.events.CurrentWeatherEvent
 import com.damianf.weatherapp.ui.settings.SettingsActivity
 import com.damianf.weatherapp.viewmodel.WeatherViewModel
 import com.damianf.weatherapp.viewmodel.WeatherViewModelFactory
+import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionDeniedResponse
-import com.karumi.dexter.listener.PermissionGrantedResponse
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.single.PermissionListener
+import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener
 import kotlinx.android.synthetic.main.activity_main.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
@@ -36,39 +35,32 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = ""
-        askForPermissions()
+        supportActionBar?.title = getString(R.string.app_bar_title_string)
+
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(WeatherViewModel::class.java)
         bindUI()
         viewModel.handleEvent(CurrentWeatherEvent.OnStart)
+        if (!hasLocationPermission())
+            askForPermissions()
+
     }
 
-
-    private fun askForPermissions() {
-        Dexter.withActivity(this)
-            .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-            .withListener(object : PermissionListener {
-                override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-                    //update location
-
-
-
-                }
-
-                override fun onPermissionRationaleShouldBeShown(
-                    permission: PermissionRequest?,
-                    token: PermissionToken?
-                ) {
-                    token?.continuePermissionRequest()
-                }
-
-                override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-
-                }
-
-            }).check()
+    override fun onResume() {
+        super.onResume()
+        viewModel.handleEvent(CurrentWeatherEvent.OnStart)
     }
+
+    private fun askForPermissions() = Dexter.withActivity(this)
+        .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+        .withListener(
+            SnackbarOnDeniedPermissionListener.Builder
+                .with(content_main, "Lokalizacja jest wymagana")
+                .withOpenSettingsButton(R.string.settings_title_string)
+                .withDuration(Snackbar.LENGTH_INDEFINITE)
+                .build()
+        )
+        .check()
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
@@ -80,22 +72,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             R.id.action_settings -> {
                 goToSettings()
             }
-            R.id.action_search -> {
-                val search = item.actionView as SearchView
-                search.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        return if (query != null && query.isNotEmpty()) {
-                            updateWeather(query)
-                            item.collapseActionView()
-                            true
-                        } else false
-                    }
 
-                    override fun onQueryTextChange(newText: String?): Boolean {
-                        return true
-                    }
-                })
-            }
             R.id.action_refresh -> {
                 viewModel.handleEvent(CurrentWeatherEvent.OnStart)
             }
@@ -134,8 +111,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
 
     private fun showError(error: Int) {
-        //need to fix this, snackbar must show below the toolbar\
-        TSnackbar.make(content_main, error, TSnackbar.LENGTH_LONG)
+        TSnackbar.make(tsnackbar, error, TSnackbar.LENGTH_LONG)
             .apply {
                 view.setBackgroundColor(getColor(R.color.design_error))
                 show()
@@ -144,5 +120,12 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
     private fun showLoading() {
         //
+    }
+
+    private fun hasLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this.applicationContext,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
     }
 }

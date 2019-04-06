@@ -29,7 +29,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(),
     val weather: LiveData<Weather> by lazy {
         _weather
     }
-    // need better error messaging and snackbar
+
     val error = SingleLiveEvent<Int>()
     fun handleEvent(event: CurrentWeatherEvent) {
         when (event) {
@@ -53,7 +53,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(),
                         is PermissionNotGrantedException -> R.string.error_no_permissions
                         else -> R.string.error_common
                     }
-            }//handle errors
+            }
         }
     }
 

@@ -10,6 +10,7 @@ import com.damianf.weatherapp.data.network.ConnectivityInterceptor
 import com.damianf.weatherapp.data.repository.WeatherRepository
 import com.damianf.weatherapp.viewmodel.WeatherViewModelFactory
 import com.google.android.gms.location.LocationServices
+import com.jakewharton.threetenabp.AndroidThreeTen
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -33,6 +34,11 @@ class WeatherApp : Application(), KodeinAware {
         bind() from singleton { WeatherRepository(instance(), instance(), instance(),instance()) }
         bind() from provider { WeatherViewModelFactory(instance()) }
 
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        AndroidThreeTen.init(this)
     }
 
 }

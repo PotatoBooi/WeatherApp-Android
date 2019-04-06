@@ -16,17 +16,26 @@
 
         <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.Actionbar"
                 android:id="@+id/toolbar"
         />
     </com.google.android.material.appbar.AppBarLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout android:layout_width="match_parent"
+                                                         android:layout_height="wrap_content"
+                                                         app:layout_anchor="@id/appbar"
+                                                         app:layout_anchorGravity="bottom"
+                                                         android:layout_gravity="bottom"
 
+    android:id="@+id/tsnackbar"/>
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
-                                                       android:layout_height="match_parent"
+                                                       android:layout_height="wrap_content"
                                                        android:id="@+id/content_main"
-                                                       app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    >
+
+                                                       app:layout_anchor="@id/appbar"
+                                                       app:layout_anchorGravity="bottom"
+                                                       android:layout_gravity="bottom"
+                                                       >
         <androidx.constraintlayout.widget.Group android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:id="@+id/txt_info"

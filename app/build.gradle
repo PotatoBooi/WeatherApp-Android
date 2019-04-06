@@ -65,7 +65,7 @@ dependencies {
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
     //new snackbar
-    implementation 'com.github.AndreiD:TSnackBar:c297bcaf5d'
+    implementation 'com.androidadvance:topsnackbar:1.1.1'
     //location
     implementation 'com.google.android.gms:play-services-location:16.0.0'
     //permissions

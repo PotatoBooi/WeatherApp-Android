@@ -85,4 +85,5 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="settings_title_string">Ustawienia</string>
+    <string name="app_bar_title_string">Pogoda</string>
 </resources>

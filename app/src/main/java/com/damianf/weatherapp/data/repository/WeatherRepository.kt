@@ -1,5 +1,6 @@
 package com.damianf.weatherapp.data.repository
 
+import android.util.Log
 import com.damianf.weatherapp.data.WeatherDataSource
 import com.damianf.weatherapp.data.db.Location
 import com.damianf.weatherapp.data.db.LocationDao
@@ -14,7 +15,10 @@ import com.damianf.weatherapp.data.location.LocationState
 import com.damianf.weatherapp.data.model.entity.Weather
 import com.damianf.weatherapp.util.PermissionNotGrantedException
 import com.damianf.weatherapp.util.baseLocation
+import org.threeten.bp.ZonedDateTime
 import java.lang.Error
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
 import kotlin.concurrent.thread
 
 class WeatherRepository(
@@ -62,9 +66,13 @@ class WeatherRepository(
                 is Result.Value -> {
                     locationDao.setLocation(Location(data.value.cityName))
                     updateWeather(data.value)
+                    val instant = Instant.ofEpochSecond(data.value.updateTime)
+                    val time = ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())
+                    Log.i("TIME","$time")
                 }
                 //is Result.Error -> locationDao.setLocation(Location(lastLocation))
             }
+
             return@withContext data
         }
 
@@ -72,4 +80,5 @@ class WeatherRepository(
         withContext(Dispatchers.IO) {
             weatherDao.upsertWeather(weather)
         }
+
 }

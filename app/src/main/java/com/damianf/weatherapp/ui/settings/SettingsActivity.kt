@@ -2,6 +2,7 @@ package com.damianf.weatherapp.ui.settings
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.NavUtils
 import com.damianf.weatherapp.R
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -23,6 +24,10 @@ class SettingsActivity : AppCompatActivity() {
             )
             .commit()
 
+    }
+
+    override fun onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this)
     }
 
 }
