@@ -53,6 +53,9 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(),
                         is PermissionNotGrantedException -> R.string.error_no_permissions
                         else -> R.string.error_common
                     }
+                if(data.error is NoConnectivityException){
+                    _weather.value = repository.getWeatherOffline()
+                }
             }
         }
     }

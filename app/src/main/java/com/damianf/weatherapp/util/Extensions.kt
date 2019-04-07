@@ -6,6 +6,9 @@ import com.damianf.weatherapp.data.model.response.WeatherEntry
 import com.google.android.gms.tasks.Task
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
 import retrofit2.HttpException
 import kotlin.math.roundToInt
 
@@ -36,7 +39,10 @@ internal val WeatherEntry.toWeatherModel: Weather
         details.pressure.roundToInt(),
         details.humidity,
         clouds.value,
-        updateTime
+        ZonedDateTime.ofInstant(
+            Instant.ofEpochSecond(updateTime),
+            ZoneId.systemDefault()).toLocalTime()
+            .toString()
     )
 
 val conditionMap = hashMapOf(

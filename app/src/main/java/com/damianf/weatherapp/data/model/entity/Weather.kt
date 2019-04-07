@@ -2,6 +2,7 @@ package com.damianf.weatherapp.data.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.threeten.bp.LocalTime
 
 @Entity(tableName = "weather_table")
 data class Weather(
@@ -15,7 +16,7 @@ data class Weather(
     val pressure: Int,
     val humidity: Int,
     val cloudiness: Int,
-    val updateTime: Long// - for later weather refreshing
+    val updateTime: String// - for later weather refreshing
 ){
     @PrimaryKey(autoGenerate = false)
     var id: Int = 0

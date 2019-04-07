@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">WeatherApp</string>
     <string name="pressure_text">Ciśnienie</string>
-    <string name="temperature_max_text">Temperatura maksymalna</string>
-    <string name="temperature_min_text">Temperatura minimalna</string>
+    <string name="temperature_max_text">Maksymalnie</string>
+    <string name="temperature_min_text">Minimalnie</string>
     <string name="clouds_text">Zachmurzenie</string>
     <string name="error_no_connection">Brak połączenia z internetem</string>
     <string name="error_not_found">Nie znaleziono</string>
