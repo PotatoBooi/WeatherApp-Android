@@ -59,7 +59,7 @@
                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
                    app:layout_constraintEnd_toStartOf="@+id/txt_temperature"
                    app:layout_constraintHorizontal_chainStyle="packed" android:layout_marginEnd="32dp"
-                   android:layout_marginStart="8dp" android:layout_marginTop="50dp"/>
+                   android:layout_marginStart="8dp" android:layout_marginTop="55dp"/>
         <TextView android:layout_width="150dp" android:layout_height="wrap_content"
                   android:id="@+id/txt_weather_description"
                   tools:text="Pochmurno z przejaśnieniami"
@@ -105,7 +105,8 @@
                 style="@style/TextAppearance.MaterialComponents.Headline3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                tools:text="Tarnowskie Góry"
+                tools:text="San Francisco"
+                android:maxLines="5"
                 android:textAlignment="center"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,8 +173,8 @@
                 app:layout_constraintTop_toTopOf="@+id/txt_weather_description"/>
         <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content"
                                                     android:layout_height="wrap_content" android:id="@+id/guideline"
-                                                    app:layout_constraintGuide_begin="205dp"
-                                                    android:orientation="vertical"/>
+                                                    android:orientation="vertical"
+                                                    app:layout_constraintGuide_percent="0.50121653"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

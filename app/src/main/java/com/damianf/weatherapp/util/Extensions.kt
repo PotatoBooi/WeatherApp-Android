@@ -11,6 +11,7 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
 import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
+import java.lang.Exception
 import kotlin.math.roundToInt
 
 fun <T> Task<T>.asDeferred(): Deferred<T> {
@@ -33,7 +34,12 @@ internal val WeatherEntry.toWeatherModel: Weather
         cityName,
         info.description.capitalize(),
         info.condition,
-        conditionMap[info.conditionId]!!,
+        try{
+            conditionMap[info.conditionId]}
+        catch (ex:Exception){
+            R.drawable.ic_sun
+        }!!
+        ,
         details.temperature.roundToInt(),
         details.temperatureMin.roundToInt(),
         details.temperatureMax.roundToInt(),
