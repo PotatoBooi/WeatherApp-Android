@@ -5,7 +5,7 @@
     <string name="temperature_min_text">Minimalnie</string>
     <string name="clouds_text">Zachmurzenie</string>
     <string name="error_no_connection">Brak połączenia z internetem</string>
-    <string name="error_not_found">Nie znaleziono</string>
+    <string name="error_not_found">Nie znaleziono lokalizacji</string>
     <string name="error_common">Wystąpił błąd</string>
     <string name="error_no_permissions">Brak uprawnień lokalizacji</string>
     <string name="localization_title_string">Używaj lokalizacji urządzenia</string>

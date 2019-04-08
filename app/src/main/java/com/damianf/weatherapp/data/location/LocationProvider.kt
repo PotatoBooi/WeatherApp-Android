@@ -17,7 +17,7 @@ import com.damianf.weatherapp.data.Result
 
 const val USE_DEVICE_LOCATION = "USE_DEVICE_LOCATION"
 const val CUSTOM_LOCATION = "CUSTOM_LOCATION"
-
+const val LOCATION_PERMISSION = Manifest.permission.ACCESS_COARSE_LOCATION
 class LocationProvider(
     private val context: Context,
     private val fusedLocationProviderClient: FusedLocationProviderClient
@@ -50,7 +50,7 @@ class LocationProvider(
     private fun hasLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             appContext,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            LOCATION_PERMISSION
         ) == PackageManager.PERMISSION_GRANTED
     }
 

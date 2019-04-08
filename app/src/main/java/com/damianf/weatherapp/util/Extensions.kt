@@ -9,6 +9,7 @@ import kotlinx.coroutines.Deferred
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.HttpException
 import kotlin.math.roundToInt
 
@@ -41,7 +42,7 @@ internal val WeatherEntry.toWeatherModel: Weather
         clouds.value,
         ZonedDateTime.ofInstant(
             Instant.ofEpochSecond(updateTime),
-            ZoneId.systemDefault()).toLocalTime()
+            ZoneId.systemDefault()).toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"))
             .toString()
     )
 

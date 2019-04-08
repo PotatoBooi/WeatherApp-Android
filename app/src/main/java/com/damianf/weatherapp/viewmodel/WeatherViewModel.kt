@@ -34,17 +34,14 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel(),
     fun handleEvent(event: CurrentWeatherEvent) {
         when (event) {
             is CurrentWeatherEvent.OnStart -> loadWeather()
-            is CurrentWeatherEvent.OnLocationChange -> loadWeather(event.location)
         }
-
     }
 
     private fun loadWeather(location: String = "") = launch {
         val data = repository.getWeather(location)
         when (data) {
-            is Result.Value -> {_weather.value = data.value
+            is Result.Value -> _weather.value = data.value
 
-            }
             is Result.Error -> {
                 error.value =
                     when(data.error){

@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -17,8 +18,12 @@ import com.androidadvance.topsnackbar.TSnackbar
 import com.damianf.weatherapp.R
 import com.damianf.weatherapp.data.state.events.CurrentWeatherEvent
 import com.damianf.weatherapp.ui.settings.SettingsActivity
+import com.damianf.weatherapp.util.LifecycleLocationManager
 import com.damianf.weatherapp.viewmodel.WeatherViewModel
 import com.damianf.weatherapp.viewmodel.WeatherViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.android.material.snackbar.Snackbar
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.listener.single.SnackbarOnDeniedPermissionListener
@@ -31,6 +36,12 @@ class MainActivity : AppCompatActivity(), KodeinAware {
     override val kodein by kodein()
     private val viewModelFactory: WeatherViewModelFactory by instance()
     private lateinit var viewModel: WeatherViewModel
+    private val fusedLocationProviderClient: FusedLocationProviderClient by instance()
+    private val locationCallback = object : LocationCallback(){
+        override fun onLocationResult(p0: LocationResult?) {
+            super.onLocationResult(p0)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,14 +51,14 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(WeatherViewModel::class.java)
         bindUI()
-        viewModel.handleEvent(CurrentWeatherEvent.OnStart)
+
         if (!hasLocationPermission())
             askForPermissions()
 
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
         viewModel.handleEvent(CurrentWeatherEvent.OnStart)
     }
 
@@ -72,11 +83,9 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             R.id.action_settings -> {
                 goToSettings()
             }
-
             R.id.action_refresh -> {
                 viewModel.handleEvent(CurrentWeatherEvent.OnStart)
             }
-
         }
         return super.onOptionsItemSelected(item)
     }
@@ -91,6 +100,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             txt_clouds.text = weather.cloudiness.toString() + " %"
             txt_city_name.text = weather.cityName
             txt_weather_description.text = weather.description
+            txt_time.text = weather.updateTime
             img_weather_icon.setImageDrawable(getDrawable(weather.iconResource))
             progress_bar_main.visibility = View.GONE
             txt_info.visibility = View.VISIBLE
@@ -101,31 +111,30 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         })
     }
 
-    private fun updateWeather(location: String) {
-        viewModel.handleEvent(CurrentWeatherEvent.OnLocationChange(location))
+    private fun bindLocationManager(){
+        LifecycleLocationManager(
+            this,
+            fusedLocationProviderClient, locationCallback
+        )
     }
-
     private fun goToSettings() {
         val intent = Intent(this, SettingsActivity::class.java).also { startActivity(it) }
     }
 
-
     private fun showError(error: Int) {
         TSnackbar.make(tsnackbar, error, TSnackbar.LENGTH_LONG)
             .apply {
-                view.setBackgroundColor(getColor(R.color.design_error))
+                view.setBackgroundColor(getColor(R.color.error))
+                view.findViewById<TextView>(com.androidadvance.topsnackbar.R.id.snackbar_text)
+                    .setTextColor(getColor(R.color.onError))
                 show()
             }
-    }
-
-    private fun showLoading() {
-        //
     }
 
     private fun hasLocationPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             this.applicationContext,
-            Manifest.permission.ACCESS_FINE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION
         ) == PackageManager.PERMISSION_GRANTED
     }
 }

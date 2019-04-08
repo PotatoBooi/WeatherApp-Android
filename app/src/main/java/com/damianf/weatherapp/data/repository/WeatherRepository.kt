@@ -21,9 +21,6 @@ class WeatherRepository(
     private val weatherDao: WeatherDao,
     private val locationProvider: LocationProvider
 ) {
-    init {
-
-    }
 
     suspend fun getWeather(location: String = ""): Result<Exception, Weather> =
         withContext(Dispatchers.IO) {
@@ -43,25 +40,11 @@ class WeatherRepository(
                 is Result.Error -> return@withContext Result.build { throw deviceLocation.error as Throwable }
 
             }
-
-//            val lastLocation = try {
-//                locationDao.getLastLocation().cityName
-//            } catch (ex: Exception) {
-//                baseLocation
-//            }
-//            var newLocation = location
-//            if (location == "") newLocation = lastLocation
-//            val data =
-//                if (isCustom)
-//                    getByCustomLocation(newLocation)
-//                else
-//                    getByDeviceLocation()
             when (data) {
                 is Result.Value -> {
                     locationDao.setLocation(Location(data.value.cityName))
                     updateWeather(data.value)
                 }
-                //is Result.Error -> locationDao.setLocation(Location(lastLocation))
             }
 
             return@withContext data
